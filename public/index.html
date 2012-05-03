@@ -98,9 +98,10 @@
             "Milk", 
             "Name: 'Milk'" );
             
+        /* be carefull with Date constructor in IE */    
         deepEqual(
             data.ReleaseDate, 
-            new Date("1995-10-01"), 
+            new Date("01 Oct 1995 GMT"), 
             "ReleaseDate: 1995-10-01" );
       };
   

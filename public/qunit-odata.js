@@ -3,11 +3,15 @@
   var QUnit = window.QUnit, 
       OData = window.OData,
       config = {},
+
+      removeParameter = function( value ) {
+        return value.replace(/;.*/,"").replace(/^\s+|\s+$/g,"");
+      },
       
       getHeader = function( headers, name ) {
          for (var prop in headers ) {
             if ( prop.toLowerCase() == name.toLowerCase() )  {
-                return headers[prop].replace(/;.*/,"").trim();
+                return removeParameter (headers[prop] );
             }
         }
         return false;
@@ -98,13 +102,13 @@
         
         for (var prop in expHeaders ) {
             var name = prop.toLowerCase();
-            expected[name] = expHeaders[prop].replace(/;.*/,"").trim();
+            expected[name] = removeParameter( expHeaders[prop] );
         }    
 
         for (var prop in actHeaders ) {
             var name = prop.toLowerCase();
             if ( name in expected ) {
-                actual[name] = actHeaders[prop].replace(/;.*/,"").trim();
+                actual[name] = removeParameter( actHeaders[prop] );
             } 
         }
         
