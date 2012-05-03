@@ -18,7 +18,7 @@ This html file should be located on the same origin as the odata service.
     </head>
     <body>
       <div id="qunit"></div>
-      <script src="datajs-1.0.2.js"></script>
+      <script src="datajs-1.0.3.js"></script>
       <script src="http://code.jquery.com/qunit/qunit-git.js"></script>
       <script src="qunit-odata.js" data-service-root="/OData/OData.svc/"></script>  
       <script src="odata-test.js"></script>    
