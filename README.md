@@ -1,18 +1,55 @@
-# README for a newly created project.
+[OData](http://www.odata.org/) acceptance tests with [QUnit](http://qunitjs.com/) 
+===========
 
-There are a couple of things you should do first, before you can use all of Git's power:
+This project provides a [QUnit](http://qunitjs.com/) addon `qunit-odata` which helps you to 
+quickly create acceptance tests [OData](http://www.odata.org/) services.
+It uses [datajs](http://datajs.codeplex.com) as OData client library. 
 
-  * Add a remote to this project: in the Cloud9 IDE command line, you can execute the following commands
-    `git remote add [remote name] [remote url (eg. 'git@github.com:/ajaxorg/node_chat')]` [Enter]
-  * Create new files inside your project
-  * Add them to to Git by executing the following command
-    `git add [file1, file2, file3, ...]` [Enter]
-  * Create a commit which can be pushed to the remote you just added
-    `git commit -m 'added new files'` [Enter]
-  * Push the commit the remote
-    `git push [remote name] master` [Enter]
+#### A minimal qunit-odata test setup 
+This html file should be located on the same origin as the odata service.
 
-That's it! If this doesn't work for you, please visit the excellent resources from [Github.com](http://help.github.com) and the [Pro Git](http://http://progit.org/book/) book.
-If you can't find your answers there, feel free to ask us via Twitter (@cloud9ide), [mailing list](groups.google.com/group/cloud9-ide) or IRC (#cloud9ide on freenode).
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+      <title>OData Test Suite</title>
+      <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css">
+    </head>
+    <body>
+      <div id="qunit"></div>
+      <script src="datajs-1.0.2.js"></script>
+      <script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+      <script src="qunit-odata.js" data-service-root="/OData/OData.svc/"></script>  
+      <script src="odata-test.js"></script>    
+    </body>
+    </html>
 
-Happy coding!
+#### The contents of oadata-test.js
+This is an example for odata testsuite file (e.g oadata-test.js from 
+the above html file).
+    
+    /* First Test */        
+    var request = {
+      resourcePath: ".", 
+      headers: {DataServiceVersion: "999.0"}
+    };
+    odataTest("Read with invalid DataServiceVersion", 1, request, function (response, data) {
+      equal(response.statusCode, 400, "StatusCode: 400");
+    });
+    
+    module( "Products" );    
+    
+    /* Second Test */
+    request = "Products(1)";
+    odataTest("Read Entity - Product 1", 4, "Products(1)" , function (response, data) {
+      equal(response.statusCode, 200, "StatusCode: 200");
+      expectedHeaders(response.headers, { DataServiceVersion: "2.0" }, "DataServiceVersion: 2.0");
+      equal(data.Name, 'Milk', "Name: 'Milk'");
+      deepEqual(data.ReleaseDate, new Date("1995-10-01"), "ReleaseDate: 1995-10-01");
+    });
+
+#### Demo
+Want to to it in action? [See this demo.](http://odata-test.herokuapp.com/) 
+
+
