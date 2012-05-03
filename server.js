@@ -15,7 +15,13 @@ http.createServer(function (req, res) {
         proxy.proxyRequest(req, res, {
             host: 'services.odata.org',
             port: 80
-        });        
+        });   
+    } else if (segments[0] == 'sap' ) { 
+        req.headers['host'] = 'gw.esworkplace.sap.com';
+        proxy.proxyRequest(req, res, {
+            host: 'gw.esworkplace.sap.com',
+            port: 80
+        });       
     } else {    
         req.addListener('end', function () {
             file.serve(req, res);

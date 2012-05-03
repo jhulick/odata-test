@@ -1,16 +1,153 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-  <title>OData Test Suite</title>
-  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css">
-</head>
-<body>
-  <div id="qunit"></div>
-  <script src="datajs-1.0.3.js"></script>
-  <script src="http://code.jquery.com/qunit/qunit-git.js"></script>
-  <script src="qunit-odata.js" data-service-root="/OData/OData.svc/"></script>  
-  <script src="odata-test.js"></script>    
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>QUnit-OData</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="odata, qunit, datajs, sap, sap gateway">
+    <meta name="author" content="Holger Koser">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/css/prettify.css" rel="stylesheet" />
+    <script src="/js/prettify.js"></script>
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+<body onload="prettyPrint()">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="https://github.com/holgerkoser/odata-test/">QUnit-OData</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/odata/">OData</a></li>
+              <li><a href="/sapgw/">SAP Gateway</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+
+      <div class="row">
+        <div class="span6">
+          <h2>OData example</h2>
+         <a href="http://www.odata.org/"><img src="/img/odata-logo.png" /></a>
+          <p>This Test Suite example runs some test on top of 
+          the <a href="http://www.odata.org/ecosystem#applications">OData Test Service</a> from 
+          <a href="http://www.odata.org/">odata.org</a>, 
+          which has been specially designed to introduce the OData Protocol. 
+          The data transfer is done in the JSON format in this case.
+          </p><p>No authentication is required for this OData service.
+          </p>
+        </div>
+        <div class="span6">
+          <h2>SAP Gateway example</h2>
+           <a href="http://scn.sap.com/community/netweaver-gateway"><img src="/img/sap-logo.png" /></a>
+           <p>The Flight sample service of 
+           <a href="http://scn.sap.com/community/netweaver-gateway">SAP Netweaver Gateway</a> 
+           is used for this Test Suite to showcase the ATOM format consumption.
+           </p><p>For this OData service authentication is required.
+           You can find the <em>username</em> and <em>password</em> for the SAP Gateway demo environment on this <a href="http://www.sdn.sap.com/irj/sdn/index?rid=/webcontent/uuid/1051f6d9-e87a-2e10-d188-e2786c7878b1">SCN page</a>. </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="span6">
+          <p><a class="btn" href="/odata/">Run Test Suite</a></p>
+          <br>
+          <h3>Test with JSON format</h3> 
+          <p><pre class="prettyprint">
+          
+  module( "Products" );    
+  
+  var testName = "Read Entity Product 1",
+      required = 4,
+      request = { 
+          method: "GET",
+          resourcePath: "Products(1)",
+          headers: { Accept: "application/json" } 
+      },
+      callback = function (response, data) {
+      
+        equal(
+            response.statusCode, 
+            200, 
+            "StatusCode: 200" );
+    
+        expectedHeaders(
+            response.headers, 
+            { DataServiceVersion: "2.0" }, 
+            "DataServiceVersion: 2.0" );
+            
+        equal(
+            data.Name, 
+            "Milk", 
+            "Name: 'Milk'" );
+            
+        deepEqual(
+            data.ReleaseDate, 
+            new Date("1995-10-01"), 
+            "ReleaseDate: 1995-10-01" );
+      };
+  
+  odataTest( testName, required, request, callback ); 
+          </pre></p>
+        </div>
+        <div class="span6">
+          <p><a class="btn" href="/sapgw/">Run Test Suite</a></p>
+          <br>
+          <h3>Test with ATOM format</h3> 
+          <p><pre class="prettyprint">
+          
+  module( "Carrier Collection" );    
+  
+  var testName = "Read Carrier LH",
+      required = 3,
+      request = { 
+        resourcePath: "CarrierCollection('LH')", 
+        headers: { Accept: "application/atom+xml" }  
+      },
+      callback = function (response, data) {
+      
+          equal(
+            response.statusCode, 
+            200, 
+            "StatusCode: 200" );
+            
+          expectedHeaders(
+            response.headers, 
+            { "Content-Type" : "application/atom+xml" },
+            "Content-Type: application/atom+xml" );
+          
+          equal(
+            data.AirLineName, 
+            "Lufthansa", 
+            "AirLineName: Lufthansa" );
+      };
+      
+  odataTest( testName, required, request, callback ); 
+          </pre></p>
+        </div>        
+      </div>
+      <hr>
+      <footer>
+        <p>&copy; Holger Koser 2012</p>
+      </footer>
+    </div> 
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 </body>
 </html>

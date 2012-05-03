@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+  <title>OData Test Suite</title>
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-git.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <script src="../js/datajs-1.0.3.js"></script>
+  <script src="http://code.jquery.com/qunit/qunit-git.js"></script>
+  <script src="../qunit-odata.js" data-service-root="//services.odata.org/OData/OData.svc/"></script>
+  <script type="text/javascript">
+    OData.defaultHttpClient.enableJsonpCallback = true;
+  </script>
+  <script src="odata-test.js"></script>    
+</body>
+</html>
