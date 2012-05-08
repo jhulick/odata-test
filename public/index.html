@@ -53,20 +53,6 @@
           The data transfer is done in the JSON format in this case.
           </p><p>No authentication is required for this OData service.
           </p>
-        </div>
-        <div class="span6">
-          <h2>SAP Gateway example</h2>
-           <a href="http://scn.sap.com/community/netweaver-gateway"><img src="/img/sap-logo.png" /></a>
-           <p>The Flight sample service of 
-           <a href="http://scn.sap.com/community/netweaver-gateway">SAP Netweaver Gateway</a> 
-           is used for this Test Suite to showcase the ATOM format consumption.
-           </p><p>For this OData service authentication is required.
-           You can find the <em>username</em> and <em>password</em> for the SAP Gateway demo environment on this <a href="http://www.sdn.sap.com/irj/sdn/index?rid=/webcontent/uuid/1051f6d9-e87a-2e10-d188-e2786c7878b1">SCN page</a>. </p>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="span6">
           <p><a class="btn" href="/odata/">Run Test Suite</a></p>
           <br>
           <h3>Test with JSON format</h3> 
@@ -106,9 +92,17 @@
       };
   
   odataTest( testName, required, request, callback ); 
-          </pre></p>
+          </pre></p>          
         </div>
         <div class="span6">
+          <h2>SAP Gateway example</h2>
+           <a href="http://scn.sap.com/community/netweaver-gateway"><img src="/img/sap-logo.png" /></a>
+           <p>The Flight sample service of 
+           <a href="http://scn.sap.com/community/netweaver-gateway">SAP Netweaver Gateway</a> 
+           is used for this Test Suite to showcase the ATOM format consumption.
+           </p><p>For this OData service authentication is required.
+           You can find the <em>username</em> and <em>password</em> for the SAP Gateway demo environment on this <a href="http://www.sdn.sap.com/irj/sdn/index?rid=/webcontent/uuid/1051f6d9-e87a-2e10-d188-e2786c7878b1">SCN page</a>.
+           </p>
           <p><a class="btn" href="/sapgw/">Run Test Suite</a></p>
           <br>
           <h3>Test with ATOM format</h3> 
@@ -141,14 +135,16 @@
       };
       
   odataTest( testName, required, request, callback ); 
-          </pre></p>
-        </div>        
+          </pre></p>           
+        </div>
       </div>
+
       <hr>
       <footer>
         <p>&copy; Holger Koser 2012</p>
       </footer>
     </div> 
     <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
 </body>
 </html>

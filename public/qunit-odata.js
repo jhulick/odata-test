@@ -55,39 +55,41 @@
             }
             
             OData.request(request, function (data, response) {
-              
-              callback.call( testEnvironment, response, data);
-              start();
+                
+                try { 
+                    callback.call( testEnvironment, response, data);
+                } catch ( e ) {
+                    QUnit.pushFailure( "Died on odata success callback: " + e.message );
+                } 
+                start();
               
             }, function(error) {
               
-              var data = { 
-                error: { 
-                  code:"", 
-                  message: { 
-                    lang: "en-US", 
-                    value: "Unexpected Error occured" 
-                  } 
-                } 
-              };
+                var data = { 
+                        error: { 
+                          code:"", 
+                          message: { 
+                            lang: "en-US", 
+                            value: "Unexpected error occured" 
+                          } 
+                        } 
+                    };
               
-              if ( error.response ) {
-                if ( error.response.body ) {
-                    var contentType = getHeader( error.response.headers, "content-type" );    
-                    if ( contentType == "application/json" ) {
-                        try {
-                            data = JSON.parse( error.response.body );
-                        } catch( e ) { 
-                            data.error.message.value = e.message;
-                        }
-                    } else if ( /application\/(.*\+)?xml/.test(contentType) ) {
+                try {                  
+                  if ( error.response ) {
+                      var contentType = getHeader( error.response.headers, "content-type" );
+                      if ( contentType == "application/json" ) {
+                        data = JSON.parse( error.response.body );
+                      } else if ( /application\/(.*\+)?xml/.test(contentType) ) {
                         /* TODO parse xml error response body */
                         data.error.message.value = error.response.body;
-                    }
-                }  
-                callback.call( testEnvironment, error.response, data );  
-              } 
-              start();
+                      }
+                      callback.call( testEnvironment, error.response, data );  
+                    } 
+                } catch( e ) { 
+                    QUnit.pushFailure( "Died on odata error callback: " + e.message );
+                }
+                start();
           
             }, null, null, config.metadata);
             
