@@ -59,8 +59,8 @@ odataTest("Read with invalid DataServiceVersion", 1, request, function (response
 module( "Products" );    
 
 /* Second Test */
-request = "Products(1)";
-odataTest("Read Entity - Product 1", 4, "Products(1)" , function (response, data) {
+request = { resourcePath: "Products(1)" };
+odataTest("Read Entity - Product 1", 4, request , function (response, data) {
   equal(response.statusCode, 200, "StatusCode: 200");
   expectedHeaders(response.headers, { DataServiceVersion: "2.0" }, "DataServiceVersion: 2.0");
   equal(data.Name, 'Milk', "Name: 'Milk'");
@@ -69,6 +69,6 @@ odataTest("Read Entity - Product 1", 4, "Products(1)" , function (response, data
 ```
 
 #### Demo
-Want to to it in action? [See this demo.](http://odata-test.herokuapp.com/) 
+Want to see it in action? [See this demo.](http://odata-test.herokuapp.com/) 
 
 
